@@ -1,6 +1,6 @@
 from util import add_report
 
-def validate_dept_info(dept_info: list):
+def validate_department(dept_info: list):
     # Keep track of IDs and names to keep uniqueness
     ids = []
     names = []

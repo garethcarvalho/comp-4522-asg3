@@ -47,4 +47,4 @@ def validate_student_counceling(student_counceling: list, department_ids: list):
         if i in exceptions:
             student_counceling.pop(i)
 
-    return exceptions
+    return student_ids, exceptions
