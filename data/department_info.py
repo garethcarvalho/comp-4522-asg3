@@ -1,5 +1,7 @@
-def validate_dept_info(dept_info: list):
-    # validate Department_ID
+from util import add_report
+
+def validate_dept_info(dept_info: list) -> list:
+    # Keep track of IDs and names to keep uniqueness
     ids = []
     names = []
     exceptions = []
@@ -25,9 +27,14 @@ def validate_dept_info(dept_info: list):
                 "index": i,
                 "reports": reports
             })
+        
+        ids.append(dept_id)
+        names.append(dept_name)
+    
+    return exceptions
 
 def validate_dept_name(names: list, dept_name: str, reports: list):
-    if dept_name:
+    if not dept_name:
             # Department_Name is missing
         add_report(reports, "Department_Name", "Missing")
 
@@ -45,10 +52,11 @@ def validate_dept_id(ids: list, dept_id: str, reports: list):
         add_report(reports, "Department_ID", "Not Unique")
 
 def validate_doe(doe: str, reports: list):
-    pass
+    if not doe:
+        add_report(reports, "DOE", "Missing")
+        return
+    
+    year = int(doe.split('/')[2])
+    if (year < 1900):
+        add_report(reports, "DOE", f"Invalid Date: {year}")
 
-def add_report(reports: list, attribute: str, report: str):
-    reports.append({
-        "attribute": attribute,
-        "report": report
-    })

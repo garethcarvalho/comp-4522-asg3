@@ -1,6 +1,7 @@
 import csv
+import department_info as dept
 
-def myreader(filename: str)->list:
+def myreader(filename: str) -> list:
     with open(filename, newline='') as f:
         reader = csv.reader(f)
         your_list = list(reader)
@@ -13,29 +14,32 @@ def mywriter(filename: str, mylist: list):
         writer.writerows(mylist)
 
 def main():
-    # read PERFORMANCE data
-    mydata = myreader('Student_Performance_Data.csv')
-    print("STUDENT_PERFORMANCE_DATA")
-    for i in range(0,29):
-        print(mydata[i])
-    print("=============================================================================================")
-    # read DEPT data
+    # # read PERFORMANCE data
+    # mydata = myreader('Student_Performance_Data.csv')
+    # print("STUDENT_PERFORMANCE_DATA")
+    # for i in range(0,29):
+    #     print(mydata[i])
+    # print("=============================================================================================")
+    # # read DEPT data
     mydata = myreader('Department_Information.csv')
-    print("DEPARTMENT_DATA")
-    for i in range(0,29):
-        print(mydata[i])
-    print("=============================================================================================")
-    # read COUNCIL data
-    mydata = myreader('Student_Counceling_Information.csv')
-    print("STUDENT_COUNCELING_DATA")
-    for i in range(0,29):
-        print(mydata[i])
-    print("=============================================================================================")
-    # read EMPLOYEE data
-    mydata = myreader('Employee_Information.csv')
-    print("EMPLOYEE_INFORMATION")
-    for i in range(0,29):
-        print(mydata[i])
+    exceptions = dept.validate_dept_info(mydata)
+    for i in range(0, 99):
+        print(exceptions[i])
+    # print("DEPARTMENT_DATA")
+    # for i in range(0,29):
+    #     print(mydata[i])
+    # print("=============================================================================================")
+    # # read COUNCIL data
+    # mydata = myreader('Student_Counceling_Information.csv')
+    # print("STUDENT_COUNCELING_DATA")
+    # for i in range(0,29):
+    #     print(mydata[i])
+    # print("=============================================================================================")
+    # # read EMPLOYEE data
+    # mydata = myreader('Employee_Information.csv')
+    # print("EMPLOYEE_INFORMATION")
+    # for i in range(0,29):
+    #     print(mydata[i])
 
         
 main()
