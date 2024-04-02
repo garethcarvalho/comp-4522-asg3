@@ -21,22 +21,22 @@ def main():
     #     print(mydata[i])
     # print("=============================================================================================")
     # # read DEPT data
-    mydata = myreader('Department_Information.csv')
+    mydata = myreader('data/Department_Information.csv')
     exceptions = dept.validate_dept_info(mydata)
-    for i in range(0, 99):
+    for i in range(len(exceptions)):
         print(exceptions[i])
     # print("DEPARTMENT_DATA")
     # for i in range(0,29):
     #     print(mydata[i])
     # print("=============================================================================================")
     # # read COUNCIL data
-    # mydata = myreader('Student_Counceling_Information.csv')
+    # mydata = myreader('data/Student_Counceling_Information.csv')
     # print("STUDENT_COUNCELING_DATA")
     # for i in range(0,29):
     #     print(mydata[i])
     # print("=============================================================================================")
     # # read EMPLOYEE data
-    # mydata = myreader('Employee_Information.csv')
+    # mydata = myreader('data/Employee_Information.csv')
     # print("EMPLOYEE_INFORMATION")
     # for i in range(0,29):
     #     print(mydata[i])

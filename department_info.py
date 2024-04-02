@@ -16,16 +16,16 @@ def validate_dept_info(dept_info: list) -> list:
         dept_name = dept[1]
         doe = dept[2]
 
-        reports = []
+        issues = []
 
-        validate_dept_id(ids, dept_id, reports)
-        validate_dept_name(names, dept_name, reports)
-        validate_doe(doe, reports)
+        validate_dept_id(ids, dept_id, issues)
+        validate_dept_name(names, dept_name, issues)
+        validate_doe(doe, issues)
         
-        if reports:
+        if issues:
             exceptions.append({
                 "index": i,
-                "reports": reports
+                "issues": issues
             })
         
         ids.append(dept_id)
