@@ -1,6 +1,6 @@
 from util import add_report
 
-def validate_dept_info(dept_info: list) -> list:
+def validate_dept_info(dept_info: list):
     # Keep track of IDs and names to keep uniqueness
     ids = []
     names = []
@@ -47,23 +47,20 @@ def validate_dept_info(dept_info: list) -> list:
                 add_report(issues, "DOE", f"Invalid Date: {year}")
             
         if issues:
-            # exceptions.append({
-            #     i: {
-            #         "issues": issues,
-            #         "action taken": "Removed"
-            #     }
-            # })
             exceptions[i] = {
                 "index": i,
                 "issues": issues,
                 "action": "Removed"
             }
         
-        ids.append(dept_id)
-        names.append(dept_name)
+        if dept_id_unique and not dept_id_missing:
+            ids.append(dept_id)
+        if dept_name_unique and not dept_name_missing:
+            names.append(dept_name)
 
     # Remove the problem data.
     for i in range(size - 1, -1, -1):
         if i in exceptions:
             dept_info.pop(i)
-    return exceptions
+    
+    return (ids, exceptions)
