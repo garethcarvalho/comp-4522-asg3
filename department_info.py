@@ -4,7 +4,7 @@ def validate_dept_info(dept_info: list) -> list:
     # Keep track of IDs and names to keep uniqueness
     ids = []
     names = []
-    exceptions = []
+    exceptions = {}
 
     size = len(dept_info)
     for i in range(size):
@@ -18,45 +18,52 @@ def validate_dept_info(dept_info: list) -> list:
 
         issues = []
 
-        validate_dept_id(ids, dept_id, issues)
-        validate_dept_name(names, dept_name, issues)
-        validate_doe(doe, issues)
+        # bunch of bools to keep track of attributes
+        dept_id_missing = dept_id == ''
+        dept_name_missing = dept_name == ''
+        dept_id_unique = dept_id_missing or dept_id not in ids
+        dept_name_unique = dept_name_missing or dept_name not in names
+        is_duplicate = not dept_id_unique and not dept_name_unique
+
+        if is_duplicate:
+            add_report(issues, "Department_ID and Department_Name", "Duplicate Entry")
+        else:
+            if not dept_id_unique:
+                add_report(issues, "Department_ID", "Not Unique")
+            if not dept_name_unique:
+                add_report(issues, "Department_Name", "Not Unique")
+
+    
+        if dept_id_missing:
+            add_report(issues, "Department_ID", "Missing")
+        if dept_name_missing:
+            add_report(issues, "Department_Name", "Missing")
         
+        if not doe:
+            add_report(issues, "DOE", "Missing")
+        else:
+            year = int(doe.split('/')[2])
+            if (year < 1900):
+                add_report(issues, "DOE", f"Invalid Date: {year}")
+            
         if issues:
-            exceptions.append({
+            # exceptions.append({
+            #     i: {
+            #         "issues": issues,
+            #         "action taken": "Removed"
+            #     }
+            # })
+            exceptions[i] = {
                 "index": i,
-                "issues": issues
-            })
+                "issues": issues,
+                "action": "Removed"
+            }
         
         ids.append(dept_id)
         names.append(dept_name)
-    
+
+    # Remove the problem data.
+    for i in range(size - 1, -1, -1):
+        if i in exceptions:
+            dept_info.pop(i)
     return exceptions
-
-def validate_dept_name(names: list, dept_name: str, reports: list):
-    if not dept_name:
-            # Department_Name is missing
-        add_report(reports, "Department_Name", "Missing")
-
-    elif dept_name in names:
-            # Department_Name is not unique
-        add_report(reports, "Department_Name", "Not Unique")
-
-
-def validate_dept_id(ids: list, dept_id: str, reports: list):
-    if not dept_id:
-            # Department_ID is missing
-        add_report(reports, "Department_ID", "Missing")
-    elif dept_id in ids:
-            # Department_ID is not unique
-        add_report(reports, "Department_ID", "Not Unique")
-
-def validate_doe(doe: str, reports: list):
-    if not doe:
-        add_report(reports, "DOE", "Missing")
-        return
-    
-    year = int(doe.split('/')[2])
-    if (year < 1900):
-        add_report(reports, "DOE", f"Invalid Date: {year}")
-

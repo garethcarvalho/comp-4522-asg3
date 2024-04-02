@@ -15,7 +15,7 @@ def mywriter(filename: str, mylist: list):
 
 def main():
     # # read PERFORMANCE data
-    # mydata = myreader('Student_Performance_Data.csv')
+    # mydata = myreader('data/Student_Performance_Data.csv')
     # print("STUDENT_PERFORMANCE_DATA")
     # for i in range(0,29):
     #     print(mydata[i])
@@ -23,8 +23,8 @@ def main():
     # # read DEPT data
     mydata = myreader('data/Department_Information.csv')
     exceptions = dept.validate_dept_info(mydata)
-    for i in range(len(exceptions)):
-        print(exceptions[i])
+    for e in exceptions:
+        print(exceptions[e])
     # print("DEPARTMENT_DATA")
     # for i in range(0,29):
     #     print(mydata[i])
