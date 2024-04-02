@@ -1,12 +1,12 @@
 import csv
 
-def myreader(filename:str)->list:
+def myreader(filename: str)->list:
     with open(filename, newline='') as f:
         reader = csv.reader(f)
         your_list = list(reader)
         return your_list
 
-def mywriter(filename:str, mylist:list):
+def mywriter(filename: str, mylist: list):
     with open(filename, 'w', encoding='UTF8', newline='') as f:
         writer = csv.writer(f)
         # write multiple rows
