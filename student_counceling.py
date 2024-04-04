@@ -1,7 +1,7 @@
-from util import add_report
+from util import add_issue
 
-def validate_student_counceling(student_counceling: list, department_ids: list):
-    student_ids = []
+def clean_student_counceling_info(student_counceling: list, department_ids: list):
+    student_ids = [int]
     exceptions = {}
 
     size = len(student_counceling)
@@ -9,7 +9,10 @@ def validate_student_counceling(student_counceling: list, department_ids: list):
         if i == 0: continue
 
         stu = student_counceling[i]
-        student_id = stu[0]
+
+        student_id = int(stu[0][3:])
+        student_counceling[i][0] = student_id
+
         dept_choice = stu[3]
         dept_admission = stu[4]        
         
@@ -18,20 +21,20 @@ def validate_student_counceling(student_counceling: list, department_ids: list):
         student_id_unique = True
 
         if not student_id:
-            add_report(issues, "Student_ID", "Missing")
+            add_issue(issues, "Student_ID", "Missing")
         elif student_id in student_ids:
             student_id_unique = False
-            add_report(issues, "Student_ID", "Not Unique")
+            add_issue(issues, "Student_ID", "Not Unique")
         
         if not dept_choice:
-            add_report(issues, "Department_Choices", "Missing")
+            add_issue(issues, "Department_Choices", "Missing")
         elif dept_choice not in department_ids:
-            add_report(issues, "Department_Choice", "Non-Existent Department")
+            add_issue(issues, "Department_Choice", "Non-Existent Department")
 
         if not dept_admission:
-            add_report(issues, "Department_Admission", "Missing")
+            add_issue(issues, "Department_Admission", "Missing")
         elif dept_admission not in department_ids:
-            add_report(issues, "Department_Admission", "Non-Existent Department")
+            add_issue(issues, "Department_Admission", "Non-Existent Department")
 
         if issues:
             exceptions[i] = {

@@ -1,8 +1,8 @@
-from util import add_report
+from util import add_issue
 
-def validate_department(dept_info: list):
+def clean_department_info(dept_info: list):
     # Keep track of IDs and names to keep uniqueness
-    ids = []
+    dept_ids = []
     names = []
     exceptions = {}
 
@@ -21,30 +21,30 @@ def validate_department(dept_info: list):
         # bunch of bools to keep track of attributes
         dept_id_missing = dept_id == ''
         dept_name_missing = dept_name == ''
-        dept_id_unique = dept_id_missing or dept_id not in ids
+        dept_id_unique = dept_id_missing or dept_id not in dept_ids
         dept_name_unique = dept_name_missing or dept_name not in names
         is_duplicate = not dept_id_unique and not dept_name_unique
 
         if is_duplicate:
-            add_report(issues, "Department_ID and Department_Name", "Duplicate Entry")
+            add_issue(issues, "Department_ID and Department_Name", "Duplicate Entry")
         else:
             if not dept_id_unique:
-                add_report(issues, "Department_ID", "Not Unique")
+                add_issue(issues, "Department_ID", "Not Unique")
             if not dept_name_unique:
-                add_report(issues, "Department_Name", "Not Unique")
+                add_issue(issues, "Department_Name", "Not Unique")
 
     
         if dept_id_missing:
-            add_report(issues, "Department_ID", "Missing")
+            add_issue(issues, "Department_ID", "Missing")
         if dept_name_missing:
-            add_report(issues, "Department_Name", "Missing")
+            add_issue(issues, "Department_Name", "Missing")
         
         if not doe:
-            add_report(issues, "DOE", "Missing")
+            add_issue(issues, "DOE", "Missing")
         else:
             year = int(doe.split('/')[2])
             if (year < 1900):
-                add_report(issues, "DOE", f"Invalid Date: {year}")
+                add_issue(issues, "DOE", f"Invalid Date: {year}")
             
         if issues:
             exceptions[i] = {
@@ -54,7 +54,7 @@ def validate_department(dept_info: list):
             }
         
         if dept_id_unique and not dept_id_missing:
-            ids.append(dept_id)
+            dept_ids.append(dept_id)
         if dept_name_unique and not dept_name_missing:
             names.append(dept_name)
 
@@ -63,4 +63,4 @@ def validate_department(dept_info: list):
         if i in exceptions:
             dept_info.pop(i)
     
-    return (ids, exceptions)
+    return dept_ids, exceptions

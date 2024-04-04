@@ -1,7 +1,8 @@
 import csv
-from department import validate_department
-from student_counceling import validate_student_counceling
-from student_performance import validate_student_performance
+from department import clean_department_info
+from student_counceling import clean_student_counceling_info
+from student_performance import clean_student_performance_data
+from employee import clean_employee_info
 
 def myreader(filename: str) -> list:
     with open(filename, newline='') as f:
@@ -24,25 +25,22 @@ def main():
     # print("=============================================================================================")
     # # read DEPT data
     dept_info = myreader('data/Department_Information.csv')
-    dept_report = validate_department(dept_info)
-
-    dept_ids = dept_report[0]
-    exceptions = dept_report[1]
+    dept_ids, exceptions = clean_department_info(dept_info)
+    print("DEPARTMENT_DATA")
+    for d in dept_info:
+        print(d)
+    return
     for e in exceptions:
         print(exceptions[e])
-    # print("DEPARTMENT_DATA")
     # for i in range(0,29):
     #     print(mydata[i])
     # print("=============================================================================================")
     # # read COUNCIL data
     stu_coun_info = myreader('data/Student_Counceling_Information.csv')
+    print("STUDENT_COUNCELING_DATA")
     print(len(stu_coun_info))
-    stu_coun_report = validate_student_counceling(stu_coun_info, dept_ids)
+    student_ids, exceptions = clean_student_counceling_info(stu_coun_info, dept_ids)
     print(len(stu_coun_info))
-
-    # print("STUDENT_COUNCELING_DATA")
-    student_ids = stu_coun_report[0]
-    exceptions = stu_coun_report[1]
     i = 0
     for e in exceptions:
         print(exceptions[e])
@@ -50,15 +48,19 @@ def main():
         if i > 29: break
 
     stu_perf_data = myreader('data/Student_Performance_Data.csv')
-    stu_perf_report = validate_student_performance(stu_perf_data, student_ids)
+    exceptions = clean_student_performance_data(stu_perf_data, student_ids)
+    print("STUDENT_PERFORMANCE_DATA")
 
-    for e in stu_perf_report:
-        print(stu_perf_report[e])
+    for e in exceptions:
+        print(exceptions[e])
 
     # print("=============================================================================================")
     # # read EMPLOYEE data
-    # mydata = myreader('data/Employee_Information.csv')
-    # print("EMPLOYEE_INFORMATION")
+    emp_info = myreader('data/Employee_Information.csv')
+    print("EMPLOYEE_INFORMATION")
+    exceptions = clean_employee_info(emp_info, dept_ids)
+    for e in exceptions:
+        print(exceptions[e])
     # for i in range(0,29):
     #     print(mydata[i])
 
